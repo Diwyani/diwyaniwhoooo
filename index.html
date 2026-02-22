@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diwyaniwhoooo ✉️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Caveat:wght@400;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #fdf6ec;
+      --blush: #f2d9cb;
+      --sage: #c5d5c0;
+      --dusty-rose: #d4a9a0;
+      --warm-brown: #7a5c4e;
+      --ink: #3a2e2a;
+      --soft-yellow: #f5e9c8;
+      --envelope-body: #e8d5bc;
+      --envelope-flap: #dfc8a8;
+      --seal: #c0786a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--sage);
+      background-image:
+        radial-gradient(ellipse at 20% 50%, #d6e4d0 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, #e8d5c4 0%, transparent 50%);
+      min-height: 400vh;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ---- HEADER ---- */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 18px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Caveat', cursive;
+      font-size: 1rem;
+      color: var(--warm-brown);
+      mix-blend-mode: multiply;
+    }
+
+    header .logo { font-size: 1.3rem; font-weight: 600; }
+
+    /* ---- STICKY SCENE ---- */
+    .scene {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ---- ENVELOPE ---- */
+    .envelope-wrap {
+      position: relative;
+      width: min(520px, 90vw);
+      height: min(370px, 65vw);
+    }
+
+    /* envelope body */
+    .env-body {
+      position: absolute;
+      inset: 0;
+      background: var(--envelope-body);
+      border-radius: 6px;
+      box-shadow:
+        0 20px 60px rgba(90,60,40,0.18),
+        0 4px 12px rgba(90,60,40,0.10),
+        inset 0 0 0 1px rgba(255,255,255,0.4);
+      z-index: 10;
+    }
+
+    /* diagonal fold lines on envelope body */
+    .env-body::before, .env-body::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 6px;
+    }
+    .env-body::before {
+      background: linear-gradient(135deg, rgba(0,0,0,0.06) 0%, transparent 45%);
+    }
+    .env-body::after {
+      background: linear-gradient(225deg, rgba(0,0,0,0.06) 0%, transparent 45%);
+    }
+
+    /* bottom triangle */
+    .env-bottom {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 55%;
+      background: var(--envelope-flap);
+      clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+      z-index: 11;
+      border-radius: 0 0 6px 6px;
+      filter: drop-shadow(0 -2px 4px rgba(0,0,0,0.06));
+    }
+
+    /* flap (top triangle that opens) */
+    .env-flap {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 55%;
+      background: var(--envelope-flap);
+      clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+      transform-origin: top center;
+      transform: rotateX(0deg);
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 20;
+      border-radius: 6px 6px 0 0;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.08));
+    }
+
+    /* wax seal */
+    .seal {
+      position: absolute;
+      top: 48%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      background: radial-gradient(circle at 38% 35%, #d4887a, var(--seal) 60%);
+      border-radius: 50%;
+      z-index: 25;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 3px rgba(255,255,255,0.3);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    /* cards container — sits behind envelope body, comes out on scroll */
+    .cards {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      height: 80%;
+      z-index: 5;
+    }
+
+    /* ---- INDIVIDUAL CARDS ---- */
+    .card {
+      position: absolute;
+      background: var(--cream);
+      border-radius: 4px;
+      box-shadow: 0 4px 18px rgba(90,60,40,0.15);
+      padding: 16px;
+      transition:
+        transform 0.8s cubic-bezier(0.34, 1.2, 0.64, 1),
+        opacity 0.6s ease;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.7);
+      left: 50%; top: 50%;
+      font-family: 'Caveat', cursive;
+    }
+
+    .card.out {
+      opacity: 1;
+    }
+
+    /* --- individual card styles & positions --- */
+    .card-intro {
+      width: 200px;
+      background: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      border-left: 3px solid var(--dusty-rose);
+    }
+    .card-intro h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+    .card-intro.out { transform: translate(calc(-50% - 200px), calc(-50% - 120px)) rotate(-4deg); }
+
+    .card-polaroid {
+      width: 130px;
+      background: white;
+      padding: 12px 12px 30px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #888;
+      border: 1px solid #eee;
+    }
+    .card-polaroid .photo-area {
+      width: 100%;
+      height: 100px;
+      background: linear-gradient(135deg, var(--sage), var(--blush));
+      border-radius: 2px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+    .card-polaroid.out { transform: translate(calc(-50% + 185px), calc(-50% - 130px)) rotate(5deg); }
+
+    .card-journal {
+      width: 175px;
+      background: #fefaf3;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: #5a4a40;
+      font-style: italic;
+      background-image: repeating-linear-gradient(
+        transparent, transparent 27px, #e8d8c8 27px, #e8d8c8 28px
+      );
+      background-position: 0 20px;
+    }
+    .card-journal.out { transform: translate(calc(-50% + 155px), calc(-50% + 80px)) rotate(3deg); }
+
+    .card-sketchbook {
+      width: 140px;
+      height: 160px;
+      background: linear-gradient(160deg, #f0ece4, #e8e0d4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      border: 1px solid #d8d0c4;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .card-sketchbook span { font-size: 0.65rem; color: #888; font-family: 'Caveat', cursive; }
+    .card-sketchbook.out { transform: translate(calc(-50% - 215px), calc(-50% + 90px)) rotate(-6deg); }
+
+    .card-music {
+      width: 160px;
+      background: var(--ink);
+      color: white;
+      font-size: 0.72rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 8px;
+    }
+    .card-music .play-btn {
+      width: 32px; height: 32px;
+      background: var(--dusty-rose);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+    }
+    .card-music .song-info { font-family: 'DM Sans', sans-serif; }
+    .card-music .song-title { font-size: 0.75rem; font-weight: 400; }
+    .card-music .song-vibe { font-size: 0.62rem; opacity: 0.6; margin-top: 2px; }
+    .card-music.out { transform: translate(calc(-50% - 50px), calc(-50% + 175px)) rotate(-2deg); }
+
+    .card-movie {
+      width: 130px;
+      background: linear-gradient(135deg, #2a1f1a, #4a3530);
+      color: white;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 18px 14px;
+      font-style: italic;
+    }
+    .card-movie .film-emoji { font-size: 2rem; margin-bottom: 8px; display: block; font-style: normal; }
+    .card-movie .label { font-family: 'Caveat', cursive; font-size: 0.65rem; opacity: 0.6; margin-bottom: 4px; font-style: normal; }
+    .card-movie.out { transform: translate(calc(-50% + 80px), calc(-50% + 185px)) rotate(4deg); }
+
+    .card-meal {
+      width: 150px;
+      background: var(--soft-yellow);
+      font-size: 0.78rem;
+      line-height: 1.6;
+    }
+    .card-meal h3 { font-family: 'Playfair Display', serif; font-size: 0.95rem; margin-bottom: 6px; }
+    .card-meal.out { transform: translate(calc(-50% + 240px), calc(-50% + 30px)) rotate(6deg); }
+
+    .card-loves {
+      width: 120px;
+      background: white;
+      font-size: 0.8rem;
+      line-height: 2;
+      text-align: center;
+      border-top: 3px dotted var(--sage);
+    }
+    .card-loves.out { transform: translate(calc(-50% - 55px), calc(-50% - 200px)) rotate(2deg); }
+
+    /* ---- OPEN STATE ---- */
+    .envelope-wrap.open .env-flap {
+      transform: rotateX(-160deg);
+    }
+    .envelope-wrap.open .seal {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.5);
+    }
+
+    /* ---- INTRO TEXT (before scroll) ---- */
+    .intro-hint {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: var(--warm-brown);
+      text-align: center;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      z-index: 50;
+    }
+    .intro-hint .arrow {
+      display: block;
+      animation: bounce 1.5s infinite;
+      font-size: 1.3rem;
+      margin-top: 4px;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      position: fixed;
+      bottom: 16px;
+      right: 24px;
+      font-family: 'Caveat', cursive;
+      font-size: 0.8rem;
+      color: var(--warm-brown);
+      opacity: 0.6;
+    }
+
+    /* mobile tweaks */
+    @media (max-width: 600px) {
+      .card-intro.out { transform: translate(calc(-50% - 120px), calc(-50% - 150px)) rotate(-4deg) scale(0.85); }
+      .card-polaroid.out { transform: translate(calc(-50% + 110px), calc(-50% - 150px)) rotate(5deg) scale(0.85); }
+      .card-sketchbook.out { transform: translate(calc(-50% - 130px), calc(-50% + 110px)) rotate(-6deg) scale(0.85); }
+      .card-journal.out { transform: translate(calc(-50% + 100px), calc(-50% + 90px)) rotate(3deg) scale(0.85); }
+      .card-music.out { transform: translate(calc(-50% - 20px), calc(-50% + 200px)) rotate(-2deg) scale(0.85); }
+      .card-movie.out { transform: translate(calc(-50% + 110px), calc(-50% + 195px)) rotate(4deg) scale(0.85); }
+      .card-meal.out { transform: translate(calc(-50% + 140px), calc(-50% + 30px)) rotate(6deg) scale(0.85); }
+      .card-loves.out { transform: translate(calc(-50% - 30px), calc(-50% - 230px)) rotate(2deg) scale(0.85); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="logo">diwyaniwhoooo ✉️</span>
+  <span style="font-size:0.85rem; opacity:0.7">scroll to open</span>
+</header>
+
+<div class="scene">
+  <div class="envelope-wrap" id="envelope">
+
+    <!-- cards (hidden inside envelope initially) -->
+    <div class="cards">
+
+      <div class="card card-intro" id="c1">
+        <h1>Hi, I'm Diwya ✨</h1>
+        <p>A goofball who loves mornings, chai, and infodumping about things that make my heart full.</p>
+        <p style="margin-top:8px; opacity:0.5; font-size:0.7rem;">📍 Somewhere beautiful</p>
+      </div>
+
+      <div class="card card-loves" id="c2">
+        ☀️ mornings<br>
+        🍵 chai<br>
+        🌸 flowers<br>
+        📖 journals<br>
+        🎨 doodling
+      </div>
+
+      <div class="card card-polaroid" id="c3">
+        <div class="photo-area">🌿</div>
+        <span>add your trip photo here ↑</span>
+      </div>
+
+      <div class="card card-sketchbook" id="c4">
+        🎨
+        <span>your sketchbook page</span>
+        <span style="opacity:0.5">drop image here</span>
+      </div>
+
+      <div class="card card-journal" id="c5">
+        <div style="font-size:0.65rem; margin-bottom:6px; opacity:0.5; font-style:normal;">🎂 birthday journal</div>
+        "Another year older and I still don't know what I'm doing — and somehow that feels exactly right..."
+      </div>
+
+      <div class="card card-music" id="c6">
+        <div class="play-btn">▶</div>
+        <div class="song-info">
+          <div class="song-title">your fav song</div>
+          <div class="song-vibe">currently on loop ♪</div>
+        </div>
+      </div>
+
+      <div class="card card-movie" id="c7">
+        <span class="film-emoji">🎬</span>
+        <div class="label">fav movie about time</div>
+        About Time
+      </div>
+
+      <div class="card card-meal" id="c8">
+        <h3>🍳 recently cooked</h3>
+        <p>fried rice at midnight with whatever was left in the fridge</p>
+        <p style="opacity:0.5; font-size:0.65rem; margin-top:4px;">(it was SO good)</p>
+      </div>
+
+    </div>
+
+    <!-- envelope layers -->
+    <div class="env-body"></div>
+    <div class="env-bottom"></div>
+    <div class="env-flap"></div>
+    <div class="seal">🌸</div>
+
+  </div>
+</div>
+
+<div class="intro-hint" id="hint">
+  scroll to open your envelope
+  <span class="arrow">↓</span>
+</div>
+
+<footer>made with love ✉️</footer>
+
+<script>
+  const envelope = document.getElementById('envelope');
+  const hint = document.getElementById('hint');
+
+  // card stagger order
+  const cards = [
+    { el: document.getElementById('c1'), delay: 0 },
+    { el: document.getElementById('c2'), delay: 80 },
+    { el: document.getElementById('c3'), delay: 140 },
+    { el: document.getElementById('c4'), delay: 200 },
+    { el: document.getElementById('c5'), delay: 260 },
+    { el: document.getElementById('c6'), delay: 320 },
+    { el: document.getElementById('c7'), delay: 380 },
+    { el: document.getElementById('c8'), delay: 440 },
+  ];
+
+  let isOpen = false;
+  let timers = [];
+
+  function openEnvelope() {
+    if (isOpen) return;
+    isOpen = true;
+    envelope.classList.add('open');
+    hint.style.opacity = '0';
+
+    cards.forEach(({ el, delay }) => {
+      const t = setTimeout(() => {
+        el.classList.add('out');
+      }, delay);
+      timers.push(t);
+    });
+  }
+
+  function closeEnvelope() {
+    if (!isOpen) return;
+    isOpen = false;
+    timers.forEach(clearTimeout);
+    timers = [];
+    envelope.classList.remove('open');
+    hint.style.opacity = '1';
+    cards.forEach(({ el }) => el.classList.remove('out'));
+  }
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+
+    // Open at ~15% scroll, close back at very top
+    if (scrollY > window.innerHeight * 0.12) {
+      openEnvelope();
+    } else {
+      closeEnvelope();
+    }
+  });
+</script>
+
+</body>
+</html>
