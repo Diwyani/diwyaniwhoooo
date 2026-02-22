@@ -4,492 +4,334 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>diwyaniwhoooo ✉️</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Caveat:wght@400;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Caveat:wght@400;600;700&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
   <style>
     :root {
-      --cream: #fdf6ec;
-      --blush: #f2d9cb;
-      --sage: #c5d5c0;
-      --dusty-rose: #d4a9a0;
-      --warm-brown: #7a5c4e;
-      --ink: #3a2e2a;
-      --soft-yellow: #f5e9c8;
-      --envelope-body: #e8d5bc;
-      --envelope-flap: #dfc8a8;
-      --seal: #c0786a;
+      --bg: #b8c9b0;
+      --cream: #fdf8f0;
+      --blush: #f0d6c8;
+      --rose: #d4a095;
+      --sage: #8aab82;
+      --dusty: #c9b5a8;
+      --brown: #6b4f43;
+      --ink: #2e2420;
+      --yellow: #f5e8c0;
+      --env: #e8d5b8;
+      --env-dark: #d4bf9e;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
-      background: var(--sage);
+      background-color: var(--bg);
       background-image:
-        radial-gradient(ellipse at 20% 50%, #d6e4d0 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, #e8d5c4 0%, transparent 50%);
-      min-height: 400vh;
+        radial-gradient(ellipse 70% 60% at 15% 40%, #c8d9c0 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 85% 70%, #d4c5b0 0%, transparent 60%);
+      min-height: 500vh;
       font-family: 'DM Sans', sans-serif;
       color: var(--ink);
       overflow-x: hidden;
     }
-
-    /* ---- HEADER ---- */
-    header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 18px 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: 'Caveat', cursive;
-      font-size: 1rem;
-      color: var(--warm-brown);
-      mix-blend-mode: multiply;
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      padding: 20px 36px;
+      display: flex; justify-content: space-between; align-items: center;
     }
+    nav .wordmark { font-family: 'Caveat', cursive; font-size: 1.4rem; font-weight: 700; color: var(--brown); }
+    nav .sub { font-family: 'Caveat', cursive; font-size: 0.95rem; color: var(--brown); opacity: 0.6; }
 
-    header .logo { font-size: 1.3rem; font-weight: 600; }
-
-    /* ---- STICKY SCENE ---- */
     .scene {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: sticky; top: 0; height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      perspective: 1200px;
     }
 
-    /* ---- ENVELOPE ---- */
-    .envelope-wrap {
+    .env-wrap {
       position: relative;
-      width: min(520px, 90vw);
-      height: min(370px, 65vw);
+      width: clamp(300px, 50vw, 580px);
+      height: clamp(210px, 35vw, 406px);
     }
 
-    /* envelope body */
+    /* ENVELOPE BODY */
     .env-body {
-      position: absolute;
-      inset: 0;
-      background: var(--envelope-body);
-      border-radius: 6px;
-      box-shadow:
-        0 20px 60px rgba(90,60,40,0.18),
-        0 4px 12px rgba(90,60,40,0.10),
-        inset 0 0 0 1px rgba(255,255,255,0.4);
-      z-index: 10;
+      position: absolute; inset: 0;
+      border-radius: 8px; overflow: hidden; z-index: 10;
+      box-shadow: 0 32px 80px rgba(60,40,30,0.22), 0 8px 20px rgba(60,40,30,0.12), inset 0 0 0 1px rgba(255,255,255,0.35);
+      background: var(--env);
+    }
+    .fold-l { position: absolute; inset: 0; background: var(--env-dark); clip-path: polygon(0 0, 0 100%, 50% 50%); opacity: 0.8; }
+    .fold-r { position: absolute; inset: 0; background: var(--env-dark); clip-path: polygon(100% 0, 100% 100%, 50% 50%); opacity: 0.55; }
+    .fold-b { position: absolute; inset: 0; background: linear-gradient(to top, #c8a878, transparent 55%); clip-path: polygon(0 100%, 50% 52%, 100% 100%); opacity: 0.5; }
+
+    /* stamp */
+    .stamp {
+      position: absolute; top: 14px; right: 16px;
+      width: 40px; height: 48px;
+      background: var(--cream); border: 2px dashed #c8a878;
+      border-radius: 2px; z-index: 11;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
     }
 
-    /* diagonal fold lines on envelope body */
-    .env-body::before, .env-body::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 6px;
-    }
-    .env-body::before {
-      background: linear-gradient(135deg, rgba(0,0,0,0.06) 0%, transparent 45%);
-    }
-    .env-body::after {
-      background: linear-gradient(225deg, rgba(0,0,0,0.06) 0%, transparent 45%);
-    }
+    /* address lines */
+    .addr { position: absolute; bottom: 20px; left: 20px; z-index: 11; display: flex; flex-direction: column; gap: 5px; }
+    .addr span { display: block; height: 1.5px; background: rgba(107,79,67,0.15); border-radius: 2px; }
+    .addr span:nth-child(1) { width: 72px; }
+    .addr span:nth-child(2) { width: 50px; }
+    .addr span:nth-child(3) { width: 60px; }
 
-    /* bottom triangle */
-    .env-bottom {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 55%;
-      background: var(--envelope-flap);
-      clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
-      z-index: 11;
-      border-radius: 0 0 6px 6px;
-      filter: drop-shadow(0 -2px 4px rgba(0,0,0,0.06));
-    }
-
-    /* flap (top triangle that opens) */
+    /* FLAP */
     .env-flap {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 55%;
-      background: var(--envelope-flap);
-      clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+      position: absolute; top: 0; left: 0; right: 0; height: 56%;
+      z-index: 30;
       transform-origin: top center;
       transform: rotateX(0deg);
-      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 20;
-      border-radius: 6px 6px 0 0;
-      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.08));
+      transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+      filter: drop-shadow(0 8px 14px rgba(60,40,30,0.18));
     }
+    .env-flap svg { width: 100%; height: 100%; }
 
-    /* wax seal */
+    /* SEAL */
     .seal {
-      position: absolute;
-      top: 48%;
-      left: 50%;
+      position: absolute; top: 49%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 44px;
-      height: 44px;
-      background: radial-gradient(circle at 38% 35%, #d4887a, var(--seal) 60%);
-      border-radius: 50%;
-      z-index: 25;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2), inset 0 1px 3px rgba(255,255,255,0.3);
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 35;
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
-
-    /* cards container — sits behind envelope body, comes out on scroll */
-    .cards {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      height: 80%;
-      z-index: 5;
-    }
-
-    /* ---- INDIVIDUAL CARDS ---- */
-    .card {
-      position: absolute;
-      background: var(--cream);
-      border-radius: 4px;
-      box-shadow: 0 4px 18px rgba(90,60,40,0.15);
-      padding: 16px;
-      transition:
-        transform 0.8s cubic-bezier(0.34, 1.2, 0.64, 1),
-        opacity 0.6s ease;
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.7);
-      left: 50%; top: 50%;
-      font-family: 'Caveat', cursive;
-    }
-
-    .card.out {
-      opacity: 1;
-    }
-
-    /* --- individual card styles & positions --- */
-    .card-intro {
-      width: 200px;
-      background: white;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.78rem;
-      line-height: 1.6;
-      border-left: 3px solid var(--dusty-rose);
-    }
-    .card-intro h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 400;
-      margin-bottom: 8px;
-      color: var(--ink);
-    }
-    .card-intro.out { transform: translate(calc(-50% - 200px), calc(-50% - 120px)) rotate(-4deg); }
-
-    .card-polaroid {
-      width: 130px;
-      background: white;
-      padding: 12px 12px 30px;
-      text-align: center;
-      font-size: 0.7rem;
-      color: #888;
-      border: 1px solid #eee;
-    }
-    .card-polaroid .photo-area {
-      width: 100%;
-      height: 100px;
-      background: linear-gradient(135deg, var(--sage), var(--blush));
-      border-radius: 2px;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-    }
-    .card-polaroid.out { transform: translate(calc(-50% + 185px), calc(-50% - 130px)) rotate(5deg); }
-
-    .card-journal {
-      width: 175px;
-      background: #fefaf3;
-      font-size: 0.82rem;
-      line-height: 1.8;
-      color: #5a4a40;
-      font-style: italic;
-      background-image: repeating-linear-gradient(
-        transparent, transparent 27px, #e8d8c8 27px, #e8d8c8 28px
-      );
-      background-position: 0 20px;
-    }
-    .card-journal.out { transform: translate(calc(-50% + 155px), calc(-50% + 80px)) rotate(3deg); }
-
-    .card-sketchbook {
-      width: 140px;
-      height: 160px;
-      background: linear-gradient(160deg, #f0ece4, #e8e0d4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
-      border: 1px solid #d8d0c4;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .card-sketchbook span { font-size: 0.65rem; color: #888; font-family: 'Caveat', cursive; }
-    .card-sketchbook.out { transform: translate(calc(-50% - 215px), calc(-50% + 90px)) rotate(-6deg); }
-
-    .card-music {
-      width: 160px;
-      background: var(--ink);
-      color: white;
-      font-size: 0.72rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px;
-      border-radius: 8px;
-    }
-    .card-music .play-btn {
-      width: 32px; height: 32px;
-      background: var(--dusty-rose);
-      border-radius: 50%;
+    .seal-inner {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: radial-gradient(circle at 38% 32%, #e09a8e, #b86b5e 55%, #9a5548);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.25), inset 0 1px 3px rgba(255,255,255,0.25);
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      font-size: 0.9rem;
+      font-size: 1.4rem;
     }
-    .card-music .song-info { font-family: 'DM Sans', sans-serif; }
-    .card-music .song-title { font-size: 0.75rem; font-weight: 400; }
-    .card-music .song-vibe { font-size: 0.62rem; opacity: 0.6; margin-top: 2px; }
-    .card-music.out { transform: translate(calc(-50% - 50px), calc(-50% + 175px)) rotate(-2deg); }
 
-    .card-movie {
-      width: 130px;
-      background: linear-gradient(135deg, #2a1f1a, #4a3530);
-      color: white;
-      font-family: 'Playfair Display', serif;
-      font-size: 0.8rem;
-      text-align: center;
-      padding: 18px 14px;
-      font-style: italic;
-    }
-    .card-movie .film-emoji { font-size: 2rem; margin-bottom: 8px; display: block; font-style: normal; }
-    .card-movie .label { font-family: 'Caveat', cursive; font-size: 0.65rem; opacity: 0.6; margin-bottom: 4px; font-style: normal; }
-    .card-movie.out { transform: translate(calc(-50% + 80px), calc(-50% + 185px)) rotate(4deg); }
+    /* CARDS STAGE */
+    .cards-stage { position: absolute; inset: 8px; z-index: 5; pointer-events: none; }
 
-    .card-meal {
-      width: 150px;
-      background: var(--soft-yellow);
-      font-size: 0.78rem;
-      line-height: 1.6;
-    }
-    .card-meal h3 { font-family: 'Playfair Display', serif; font-size: 0.95rem; margin-bottom: 6px; }
-    .card-meal.out { transform: translate(calc(-50% + 240px), calc(-50% + 30px)) rotate(6deg); }
-
-    .card-loves {
-      width: 120px;
-      background: white;
-      font-size: 0.8rem;
-      line-height: 2;
-      text-align: center;
-      border-top: 3px dotted var(--sage);
-    }
-    .card-loves.out { transform: translate(calc(-50% - 55px), calc(-50% - 200px)) rotate(2deg); }
-
-    /* ---- OPEN STATE ---- */
-    .envelope-wrap.open .env-flap {
-      transform: rotateX(-160deg);
-    }
-    .envelope-wrap.open .seal {
+    .card {
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%, -50%) scale(0.7);
       opacity: 0;
-      transform: translate(-50%, -50%) scale(0.5);
-    }
-
-    /* ---- INTRO TEXT (before scroll) ---- */
-    .intro-hint {
-      position: fixed;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Caveat', cursive;
-      font-size: 1.1rem;
-      color: var(--warm-brown);
-      text-align: center;
-      transition: opacity 0.5s ease;
+      transition: transform 0.9s cubic-bezier(0.34, 1.15, 0.64, 1), opacity 0.55s ease;
+      border-radius: 5px;
       pointer-events: none;
-      z-index: 50;
     }
-    .intro-hint .arrow {
-      display: block;
-      animation: bounce 1.5s infinite;
-      font-size: 1.3rem;
-      margin-top: 4px;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(6px); }
-    }
+    .card.visible { opacity: 1; pointer-events: auto; }
 
-    /* ---- FOOTER ---- */
-    footer {
-      position: fixed;
-      bottom: 16px;
-      right: 24px;
-      font-family: 'Caveat', cursive;
-      font-size: 0.8rem;
-      color: var(--warm-brown);
-      opacity: 0.6;
-    }
+    /* CARD 1 — intro */
+    .c-intro { width: 192px; background: white; padding: 18px 16px; border-left: 3.5px solid var(--rose); box-shadow: 0 8px 28px rgba(60,40,30,0.14); }
+    .c-intro h1 { font-family: 'Playfair Display', serif; font-size: 1.22rem; font-weight: 600; margin-bottom: 8px; }
+    .c-intro p { font-size: 0.72rem; line-height: 1.65; color: #5a4840; }
+    .c-intro .loc { margin-top: 10px; font-family: 'Caveat', cursive; font-size: 0.8rem; color: var(--rose); }
+    .c-intro.visible { transform: translate(calc(-50% - 222px), calc(-50% - 140px)) rotate(-5deg); }
 
-    /* mobile tweaks */
-    @media (max-width: 600px) {
-      .card-intro.out { transform: translate(calc(-50% - 120px), calc(-50% - 150px)) rotate(-4deg) scale(0.85); }
-      .card-polaroid.out { transform: translate(calc(-50% + 110px), calc(-50% - 150px)) rotate(5deg) scale(0.85); }
-      .card-sketchbook.out { transform: translate(calc(-50% - 130px), calc(-50% + 110px)) rotate(-6deg) scale(0.85); }
-      .card-journal.out { transform: translate(calc(-50% + 100px), calc(-50% + 90px)) rotate(3deg) scale(0.85); }
-      .card-music.out { transform: translate(calc(-50% - 20px), calc(-50% + 200px)) rotate(-2deg) scale(0.85); }
-      .card-movie.out { transform: translate(calc(-50% + 110px), calc(-50% + 195px)) rotate(4deg) scale(0.85); }
-      .card-meal.out { transform: translate(calc(-50% + 140px), calc(-50% + 30px)) rotate(6deg) scale(0.85); }
-      .card-loves.out { transform: translate(calc(-50% - 30px), calc(-50% - 230px)) rotate(2deg) scale(0.85); }
+    /* CARD 2 — loves */
+    .c-loves { width: 112px; background: var(--yellow); padding: 14px 12px; font-family: 'Caveat', cursive; font-size: 0.88rem; line-height: 2; text-align: center; color: var(--brown); border-top: 3px dotted var(--rose); box-shadow: 0 5px 18px rgba(60,40,30,0.11); }
+    .c-loves .lt { font-size: 0.6rem; font-family: 'DM Sans', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: var(--rose); margin-bottom: 4px; }
+    .c-loves.visible { transform: translate(calc(-50% - 58px), calc(-50% - 218px)) rotate(3deg); }
+
+    /* CARD 3 — polaroid */
+    .c-polaroid { width: 136px; background: white; padding: 10px 10px 28px; box-shadow: 0 8px 24px rgba(60,40,30,0.16), 2px 2px 0 #e8ddd0; }
+    .c-polaroid .photo { width: 100%; height: 110px; background: linear-gradient(135deg, #c8d9c0, #d4c5b0); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; overflow: hidden; }
+    .c-polaroid .photo img { width: 100%; height: 100%; object-fit: cover; }
+    .c-polaroid .cap { font-family: 'Caveat', cursive; font-size: 0.75rem; color: #999; text-align: center; margin-top: 8px; }
+    .c-polaroid.visible { transform: translate(calc(-50% + 193px), calc(-50% - 146px)) rotate(6deg); }
+
+    /* CARD 4 — sketchbook */
+    .c-sketch { width: 146px; height: 165px; background: #f0ece2; border: 1px solid #ddd6c8; box-shadow: 0 6px 20px rgba(60,40,30,0.12), -3px 0 0 #d8d0c0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; position: relative; overflow: hidden; }
+    .c-sketch::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(transparent, transparent 23px, rgba(180,160,140,0.18) 23px, rgba(180,160,140,0.18) 24px); }
+    .c-sketch .si { font-size: 3rem; line-height: 1; position: relative; }
+    .c-sketch .sl { font-family: 'Caveat', cursive; font-size: 0.7rem; color: #9a8878; text-align: center; line-height: 1.4; position: relative; }
+    .c-sketch.visible { transform: translate(calc(-50% - 232px), calc(-50% + 100px)) rotate(-7deg); }
+
+    /* CARD 5 — journal */
+    .c-journal { width: 166px; background: #fefaf2; padding: 14px 14px 14px 22px; box-shadow: 0 6px 22px rgba(60,40,30,0.11); position: relative; background-image: repeating-linear-gradient(transparent, transparent 24px, #e5d8c8 24px, #e5d8c8 25px); background-position: 0 18px; }
+    .c-journal::before { content: ''; position: absolute; top: 0; bottom: 0; left: 15px; width: 1px; background: rgba(210,160,150,0.45); }
+    .c-journal .jdate { font-family: 'Caveat', cursive; font-size: 0.65rem; color: var(--rose); margin-bottom: 6px; }
+    .c-journal p { font-family: 'Caveat', cursive; font-size: 0.8rem; line-height: 1.85; color: #4a3c34; font-style: italic; }
+    .c-journal.visible { transform: translate(calc(-50% + 168px), calc(-50% + 88px)) rotate(4deg); }
+
+    /* CARD 6 — music */
+    .c-music { width: 163px; background: var(--ink); padding: 12px 14px; border-radius: 10px; box-shadow: 0 8px 24px rgba(20,12,8,0.3); display: flex; align-items: center; gap: 10px; }
+    .c-music .play { width: 34px; height: 34px; background: var(--rose); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.82rem; flex-shrink: 0; }
+    .c-music .mi { color: white; }
+    .c-music .song { font-size: 0.73rem; }
+    .c-music .vibe { font-size: 0.58rem; opacity: 0.5; margin-top: 2px; font-style: italic; }
+    .c-music .bars { display: flex; align-items: flex-end; gap: 2px; height: 14px; margin-top: 4px; }
+    .c-music .bars span { display: block; width: 2.5px; background: var(--rose); border-radius: 2px; animation: bar 0.8s ease-in-out infinite alternate; opacity: 0.7; }
+    .c-music .bars span:nth-child(1) { height: 6px; animation-delay: 0s; }
+    .c-music .bars span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+    .c-music .bars span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
+    .c-music .bars span:nth-child(4) { height: 14px; animation-delay: 0.1s; }
+    .c-music .bars span:nth-child(5) { height: 5px; animation-delay: 0.25s; }
+    @keyframes bar { from { transform: scaleY(0.3); } to { transform: scaleY(1); } }
+    .c-music.visible { transform: translate(calc(-50% - 68px), calc(-50% + 202px)) rotate(-3deg); }
+
+    /* CARD 7 — movie */
+    .c-movie { width: 118px; background: linear-gradient(155deg, #1e1410, #3a2820); padding: 18px 14px; border-radius: 5px; text-align: center; box-shadow: 0 8px 24px rgba(20,12,8,0.35); }
+    .c-movie .tt { font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 10px; }
+    .c-movie .reel { font-size: 2rem; display: block; margin-bottom: 6px; }
+    .c-movie .mt { font-family: 'Playfair Display', serif; font-size: 0.8rem; color: white; font-style: italic; line-height: 1.4; }
+    .c-movie .tl { margin: 10px -14px 0; height: 1px; background: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px); }
+    .c-movie .ts { font-size: 0.52rem; color: rgba(255,255,255,0.3); margin-top: 8px; letter-spacing: 0.06em; }
+    .c-movie.visible { transform: translate(calc(-50% + 68px), calc(-50% + 202px)) rotate(5deg); }
+
+    /* CARD 8 — meal */
+    .c-meal { width: 146px; background: var(--cream); padding: 14px; border-radius: 5px; border-bottom: 3px solid var(--sage); box-shadow: 0 6px 20px rgba(60,40,30,0.11); }
+    .c-meal h3 { font-family: 'Playfair Display', serif; font-size: 0.88rem; margin-bottom: 6px; }
+    .c-meal p { font-family: 'Caveat', cursive; font-size: 0.8rem; line-height: 1.6; color: #5a4840; }
+    .c-meal .chef { margin-top: 8px; font-size: 0.58rem; color: var(--sage); letter-spacing: 0.06em; text-transform: uppercase; }
+    .c-meal.visible { transform: translate(calc(-50% + 250px), calc(-50% + 22px)) rotate(7deg); }
+
+    /* OPEN STATE */
+    .env-wrap.open .env-flap { transform: rotateX(-165deg); }
+    .env-wrap.open .seal { opacity: 0; transform: translate(-50%, -50%) scale(0.4); pointer-events: none; }
+
+    /* SCROLL HINT */
+    .scroll-hint {
+      position: fixed; bottom: 36px; left: 50%; transform: translateX(-50%);
+      text-align: center; font-family: 'Caveat', cursive; font-size: 1.05rem;
+      color: var(--brown); opacity: 0.75; pointer-events: none; z-index: 100;
+      transition: opacity 0.6s ease;
+    }
+    .scroll-hint .arr { display: block; margin-top: 4px; animation: bob 1.6s ease-in-out infinite; font-size: 1.2rem; }
+    @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(7px)} }
+
+    footer { position: fixed; bottom: 14px; right: 22px; font-family: 'Caveat', cursive; font-size: 0.78rem; color: var(--brown); opacity: 0.4; z-index: 100; }
+
+    @media (max-width: 640px) {
+      .c-intro.visible   { transform: translate(calc(-50% - 135px), calc(-50% - 162px)) rotate(-5deg) scale(0.88); }
+      .c-loves.visible   { transform: translate(calc(-50% + 82px),  calc(-50% - 192px)) rotate(3deg)  scale(0.88); }
+      .c-polaroid.visible{ transform: translate(calc(-50% + 118px), calc(-50% - 152px)) rotate(6deg)  scale(0.88); }
+      .c-sketch.visible  { transform: translate(calc(-50% - 142px), calc(-50% + 100px)) rotate(-7deg) scale(0.88); }
+      .c-journal.visible { transform: translate(calc(-50% + 98px),  calc(-50% + 98px))  rotate(4deg)  scale(0.88); }
+      .c-music.visible   { transform: translate(calc(-50% - 38px),  calc(-50% + 208px)) rotate(-3deg) scale(0.88); }
+      .c-movie.visible   { transform: translate(calc(-50% + 95px),  calc(-50% + 208px)) rotate(5deg)  scale(0.88); }
+      .c-meal.visible    { transform: translate(calc(-50% + 148px), calc(-50% + 22px))  rotate(7deg)  scale(0.88); }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <span class="logo">diwyaniwhoooo ✉️</span>
-  <span style="font-size:0.85rem; opacity:0.7">scroll to open</span>
-</header>
+<nav>
+  <span class="wordmark">diwyaniwhoooo ✉️</span>
+  <span class="sub">scroll to open</span>
+</nav>
 
 <div class="scene">
-  <div class="envelope-wrap" id="envelope">
+  <div class="env-wrap" id="envelope">
 
-    <!-- cards (hidden inside envelope initially) -->
-    <div class="cards">
-
-      <div class="card card-intro" id="c1">
+    <div class="cards-stage">
+      <div class="card c-intro" id="c1">
         <h1>Hi, I'm Diwya ✨</h1>
-        <p>A goofball who loves mornings, chai, and infodumping about things that make my heart full.</p>
-        <p style="margin-top:8px; opacity:0.5; font-size:0.7rem;">📍 Somewhere beautiful</p>
+        <p>A goofball who loves mornings, chai, infodumping, and making things with her hands. This is my little corner.</p>
+        <div class="loc">📍 add your city</div>
       </div>
 
-      <div class="card card-loves" id="c2">
-        ☀️ mornings<br>
-        🍵 chai<br>
-        🌸 flowers<br>
-        📖 journals<br>
-        🎨 doodling
+      <div class="card c-loves" id="c2">
+        <div class="lt">things I love</div>
+        ☀️ mornings<br>🍵 chai<br>🌸 flowers<br>📖 journals<br>🎨 doodling<br>🌿 slow days
       </div>
 
-      <div class="card card-polaroid" id="c3">
-        <div class="photo-area">🌿</div>
-        <span>add your trip photo here ↑</span>
+      <div class="card c-polaroid" id="c3">
+        <div class="photo">🌿</div>
+        <div class="cap">your trip photo here ↑</div>
       </div>
 
-      <div class="card card-sketchbook" id="c4">
-        🎨
-        <span>your sketchbook page</span>
-        <span style="opacity:0.5">drop image here</span>
+      <div class="card c-sketch" id="c4">
+        <div class="si">🎨</div>
+        <div class="sl">sketchbook page<br><span style="opacity:0.6">drop image here</span></div>
       </div>
 
-      <div class="card card-journal" id="c5">
-        <div style="font-size:0.65rem; margin-bottom:6px; opacity:0.5; font-style:normal;">🎂 birthday journal</div>
-        "Another year older and I still don't know what I'm doing — and somehow that feels exactly right..."
+      <div class="card c-journal" id="c5">
+        <div class="jdate">🎂 my birthday</div>
+        <p>"Another year older and I still don't know what I'm doing — and somehow that feels exactly right..."</p>
       </div>
 
-      <div class="card card-music" id="c6">
-        <div class="play-btn">▶</div>
-        <div class="song-info">
-          <div class="song-title">your fav song</div>
-          <div class="song-vibe">currently on loop ♪</div>
+      <div class="card c-music" id="c6">
+        <div class="play">▶</div>
+        <div class="mi">
+          <div class="song">your fav song</div>
+          <div class="vibe">currently on loop ♪</div>
+          <div class="bars"><span></span><span></span><span></span><span></span><span></span></div>
         </div>
       </div>
 
-      <div class="card card-movie" id="c7">
-        <span class="film-emoji">🎬</span>
-        <div class="label">fav movie about time</div>
-        About Time
+      <div class="card c-movie" id="c7">
+        <div class="tt">now screening</div>
+        <span class="reel">🎬</span>
+        <div class="mt">About Time</div>
+        <div class="tl"></div>
+        <div class="ts">fav movie about time</div>
       </div>
 
-      <div class="card card-meal" id="c8">
+      <div class="card c-meal" id="c8">
         <h3>🍳 recently cooked</h3>
         <p>fried rice at midnight with whatever was left in the fridge</p>
-        <p style="opacity:0.5; font-size:0.65rem; margin-top:4px;">(it was SO good)</p>
+        <div class="chef">chef diwya, 2026</div>
       </div>
-
     </div>
 
-    <!-- envelope layers -->
-    <div class="env-body"></div>
-    <div class="env-bottom"></div>
-    <div class="env-flap"></div>
-    <div class="seal">🌸</div>
+    <!-- Envelope layers -->
+    <div class="env-body">
+      <div class="fold-l"></div>
+      <div class="fold-r"></div>
+      <div class="fold-b"></div>
+    </div>
+    <div class="stamp">🌸</div>
+    <div class="addr"><span></span><span></span><span></span></div>
+
+    <div class="env-flap">
+      <svg viewBox="0 0 580 224" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <polygon points="0,0 580,0 290,224" fill="#dcc8a5"/>
+        <line x1="0" y1="0" x2="290" y2="224" stroke="rgba(180,150,110,0.15)" stroke-width="1"/>
+        <line x1="580" y1="0" x2="290" y2="224" stroke="rgba(180,150,110,0.15)" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <div class="seal">
+      <div class="seal-inner">🌸</div>
+    </div>
 
   </div>
 </div>
 
-<div class="intro-hint" id="hint">
+<div class="scroll-hint" id="scrollHint">
   scroll to open your envelope
-  <span class="arrow">↓</span>
+  <span class="arr">↓</span>
 </div>
 
-<footer>made with love ✉️</footer>
+<footer>diwya, 2026 ✉️</footer>
 
 <script>
   const envelope = document.getElementById('envelope');
-  const hint = document.getElementById('hint');
-
-  // card stagger order
-  const cards = [
-    { el: document.getElementById('c1'), delay: 0 },
-    { el: document.getElementById('c2'), delay: 80 },
-    { el: document.getElementById('c3'), delay: 140 },
-    { el: document.getElementById('c4'), delay: 200 },
-    { el: document.getElementById('c5'), delay: 260 },
-    { el: document.getElementById('c6'), delay: 320 },
-    { el: document.getElementById('c7'), delay: 380 },
-    { el: document.getElementById('c8'), delay: 440 },
+  const scrollHint = document.getElementById('scrollHint');
+  const cardDefs = [
+    {id:'c1',delay:0},{id:'c2',delay:70},{id:'c3',delay:130},{id:'c4',delay:190},
+    {id:'c5',delay:250},{id:'c6',delay:310},{id:'c7',delay:370},{id:'c8',delay:430}
   ];
+  const cards = cardDefs.map(d => ({ el: document.getElementById(d.id), delay: d.delay }));
+  let isOpen = false, timers = [];
 
-  let isOpen = false;
-  let timers = [];
-
-  function openEnvelope() {
+  function openEnv() {
     if (isOpen) return;
     isOpen = true;
     envelope.classList.add('open');
-    hint.style.opacity = '0';
-
-    cards.forEach(({ el, delay }) => {
-      const t = setTimeout(() => {
-        el.classList.add('out');
-      }, delay);
-      timers.push(t);
-    });
+    scrollHint.style.opacity = '0';
+    cards.forEach(({ el, delay }) => { timers.push(setTimeout(() => el.classList.add('visible'), delay)); });
   }
-
-  function closeEnvelope() {
+  function closeEnv() {
     if (!isOpen) return;
     isOpen = false;
-    timers.forEach(clearTimeout);
-    timers = [];
+    timers.forEach(clearTimeout); timers = [];
     envelope.classList.remove('open');
-    hint.style.opacity = '1';
-    cards.forEach(({ el }) => el.classList.remove('out'));
+    scrollHint.style.opacity = '1';
+    cards.forEach(({ el }) => el.classList.remove('visible'));
   }
 
   window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    const maxScroll = document.body.scrollHeight - window.innerHeight;
-
-    // Open at ~15% scroll, close back at very top
-    if (scrollY > window.innerHeight * 0.12) {
-      openEnvelope();
-    } else {
-      closeEnvelope();
-    }
-  });
+    window.scrollY > window.innerHeight * 0.1 ? openEnv() : closeEnv();
+  }, { passive: true });
 </script>
-
 </body>
 </html>
